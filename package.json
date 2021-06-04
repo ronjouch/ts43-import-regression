@@ -1,0 +1,14 @@
+{
+  "name": "ts43-import-regression",
+  "version": "1.0.0",
+  "main": "dist/src-dogs/index.js",
+  "typings": "dist/src-dogs/index.d.ts",
+  "scripts": {
+    "compile": "tsc --build src-types src-dogs",
+    "compile:watch": "tsc --build src-types src-dogs -w",
+    "repro": "rm -rf ./dist/ && npm_config_loglevel=silent npm i --no-fund --no-save --no-audit typescript@4.2.x && npm run compile && grep 'getDogConfig' ./dist/src-dogs/lassie/LassieDog.d.ts && echo '                  HERE: good, a relative import ^^^^' && echo '===== Notice above how the type of getDogConfig type was compiled to a proper *relative* import,' && echo '===== through index.ts itself referencing something relative. Good.' && echo && echo '===== Now with TS 4.3: the relative import will no longer be relative but absolute using the' && echo '===== project folder name, causing the library to break when used in another context' && echo && npm_config_loglevel=silent npm i --no-fund --no-save --no-audit typescript@4.3.x && npm run compile && grep 'getDogConfig' ./dist/src-dogs/lassie/LassieDog.d.ts && echo '                     HERE: bad, absolute import ^^^^^^^^^^^' && echo && echo '===== And lets see if it is fixed in the last nightly...' && npm_config_loglevel=silent npm i --no-fund --no-save --no-audit typescript@next && npm run compile && grep 'getDogConfig' ./dist/src-dogs/lassie/LassieDog.d.ts"
+  },
+  "dependencies": {
+    "typescript": "^4.3.2"
+  }
+}

@@ -1,0 +1,12 @@
+.agignore
+.DS_Store
+.env
+.vscode/
+*.swp
+*.tgz
+*.zip
+/.idea/
+dist*
+node_modules*
+package-lock.json
+npm-debug.log
